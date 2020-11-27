@@ -11,6 +11,7 @@ using Catto.Auth.Controllers;
 using Catto.Auth.Services;
 using Catto.DataLib.Data;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace Catto.ManagerWeb.Controllers
@@ -37,11 +38,12 @@ namespace Catto.ManagerWeb.Controllers
             if (user != null)
             {
                 var token = authService.GenerateJWT(user);
-                HttpContext.Response.Headers.Add("Authorization", "Bearer" + token);
+                Response.Cookies.Append("Authorization", "Bearer " + token);
             }
             return "Авторизован";
         }
         
+        [Authorize]
         public IActionResult Privacy()
         {
             return View();

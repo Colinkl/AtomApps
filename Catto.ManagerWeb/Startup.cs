@@ -76,6 +76,16 @@ namespace Catto.ManagerWeb
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.Use(async (context, next) =>
+            {
+                var cok = context.Request.Cookies["Authorization"]?.ToList()[0].ToString();
+                if (cok != "")
+                {
+                    context.Response.Headers.Add("Authorization", cok);
+                }
+                await next.Invoke();
+            });
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
