@@ -21,5 +21,6 @@ namespace Catto.DataLib.Data
         public DbSet<Technician> Technicians { get; set; }
         public DbSet<Project> Project { get; set; }
         public DbSet<JobTask> JobTasks { get; set; }
+        public DbSet<Malfuntions> MalfuntionsList { get; set; }
     }
 }
