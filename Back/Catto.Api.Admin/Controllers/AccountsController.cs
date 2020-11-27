@@ -13,7 +13,7 @@ using System.Security.Claims;
 
 namespace Catto.Api.Admin.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("admin/api/[controller]")]
     [ApiController]
     [Authorize (Roles = "Admin")]
     public class AccountsController : ControllerBase

@@ -14,47 +14,47 @@ namespace Catto.Api.Admin.Controllers
     [Route("admin/api/[controller]")]
     [ApiController]
     [Authorize]
-    public class JobTasksController : ControllerBase
+    public class MalfuntionsController : ControllerBase
     {
         private readonly AtomContextDB _context;
 
-        public JobTasksController(AtomContextDB context)
+        public MalfuntionsController(AtomContextDB context)
         {
             _context = context;
         }
 
-        // GET: api/JobTasks
+        // GET: api/Malfuntions
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<JobTask>>> GetJobTasks()
+        public async Task<ActionResult<IEnumerable<Malfuntions>>> GetMalfuntionsList()
         {
-            return await _context.JobTasks.ToListAsync();
+            return await _context.MalfuntionsList.ToListAsync();
         }
 
-        // GET: api/JobTasks/5
+        // GET: api/Malfuntions/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<JobTask>> GetJobTask(int id)
+        public async Task<ActionResult<Malfuntions>> GetMalfuntions(int id)
         {
-            var jobTask = await _context.JobTasks.FindAsync(id);
+            var malfuntions = await _context.MalfuntionsList.FindAsync(id);
 
-            if (jobTask == null)
+            if (malfuntions == null)
             {
                 return NotFound();
             }
 
-            return jobTask;
+            return malfuntions;
         }
 
-        // PUT: api/JobTasks/5
+        // PUT: api/Malfuntions/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutJobTask(int id, JobTask jobTask)
+        public async Task<IActionResult> PutMalfuntions(int id, Malfuntions malfuntions)
         {
-            if (id != jobTask.Id)
+            if (id != malfuntions.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(jobTask).State = EntityState.Modified;
+            _context.Entry(malfuntions).State = EntityState.Modified;
 
             try
             {
@@ -62,7 +62,7 @@ namespace Catto.Api.Admin.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!JobTaskExists(id))
+                if (!MalfuntionsExists(id))
                 {
                     return NotFound();
                 }
@@ -75,36 +75,36 @@ namespace Catto.Api.Admin.Controllers
             return NoContent();
         }
 
-        // POST: api/JobTasks
+        // POST: api/Malfuntions
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<JobTask>> PostJobTask(JobTask jobTask)
+        public async Task<ActionResult<Malfuntions>> PostMalfuntions(Malfuntions malfuntions)
         {
-            _context.JobTasks.Add(jobTask);
+            _context.MalfuntionsList.Add(malfuntions);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetJobTask", new { id = jobTask.Id }, jobTask);
+            return CreatedAtAction("GetMalfuntions", new { id = malfuntions.Id }, malfuntions);
         }
 
-        // DELETE: api/JobTasks/5
+        // DELETE: api/Malfuntions/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteJobTask(int id)
+        public async Task<IActionResult> DeleteMalfuntions(int id)
         {
-            var jobTask = await _context.JobTasks.FindAsync(id);
-            if (jobTask == null)
+            var malfuntions = await _context.MalfuntionsList.FindAsync(id);
+            if (malfuntions == null)
             {
                 return NotFound();
             }
 
-            _context.JobTasks.Remove(jobTask);
+            _context.MalfuntionsList.Remove(malfuntions);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool JobTaskExists(int id)
+        private bool MalfuntionsExists(int id)
         {
-            return _context.JobTasks.Any(e => e.Id == id);
+            return _context.MalfuntionsList.Any(e => e.Id == id);
         }
     }
 }

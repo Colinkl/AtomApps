@@ -14,47 +14,47 @@ namespace Catto.Api.Admin.Controllers
     [Route("admin/api/[controller]")]
     [ApiController]
     [Authorize]
-    public class JobTasksController : ControllerBase
+    public class PropertiesController : ControllerBase
     {
         private readonly AtomContextDB _context;
 
-        public JobTasksController(AtomContextDB context)
+        public PropertiesController(AtomContextDB context)
         {
             _context = context;
         }
 
-        // GET: api/JobTasks
+        // GET: api/Properties
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<JobTask>>> GetJobTasks()
+        public async Task<ActionResult<IEnumerable<Property>>> GetProperties()
         {
-            return await _context.JobTasks.ToListAsync();
+            return await _context.Properties.ToListAsync();
         }
 
-        // GET: api/JobTasks/5
+        // GET: api/Properties/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<JobTask>> GetJobTask(int id)
+        public async Task<ActionResult<Property>> GetProperty(int id)
         {
-            var jobTask = await _context.JobTasks.FindAsync(id);
+            var @property = await _context.Properties.FindAsync(id);
 
-            if (jobTask == null)
+            if (@property == null)
             {
                 return NotFound();
             }
 
-            return jobTask;
+            return @property;
         }
 
-        // PUT: api/JobTasks/5
+        // PUT: api/Properties/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutJobTask(int id, JobTask jobTask)
+        public async Task<IActionResult> PutProperty(int id, Property @property)
         {
-            if (id != jobTask.Id)
+            if (id != @property.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(jobTask).State = EntityState.Modified;
+            _context.Entry(@property).State = EntityState.Modified;
 
             try
             {
@@ -62,7 +62,7 @@ namespace Catto.Api.Admin.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!JobTaskExists(id))
+                if (!PropertyExists(id))
                 {
                     return NotFound();
                 }
@@ -75,36 +75,36 @@ namespace Catto.Api.Admin.Controllers
             return NoContent();
         }
 
-        // POST: api/JobTasks
+        // POST: api/Properties
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<JobTask>> PostJobTask(JobTask jobTask)
+        public async Task<ActionResult<Property>> PostProperty(Property @property)
         {
-            _context.JobTasks.Add(jobTask);
+            _context.Properties.Add(@property);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetJobTask", new { id = jobTask.Id }, jobTask);
+            return CreatedAtAction("GetProperty", new { id = @property.Id }, @property);
         }
 
-        // DELETE: api/JobTasks/5
+        // DELETE: api/Properties/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteJobTask(int id)
+        public async Task<IActionResult> DeleteProperty(int id)
         {
-            var jobTask = await _context.JobTasks.FindAsync(id);
-            if (jobTask == null)
+            var @property = await _context.Properties.FindAsync(id);
+            if (@property == null)
             {
                 return NotFound();
             }
 
-            _context.JobTasks.Remove(jobTask);
+            _context.Properties.Remove(@property);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool JobTaskExists(int id)
+        private bool PropertyExists(int id)
         {
-            return _context.JobTasks.Any(e => e.Id == id);
+            return _context.Properties.Any(e => e.Id == id);
         }
     }
 }

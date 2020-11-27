@@ -7,12 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Catto.DataLib.Data;
 using Catto.DataLib.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Catto.Api.Admin.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("admin/api/[controller]")]
     [ApiController]
-
+    [Authorize]
     public class EmployeesController : ControllerBase
     {
         private readonly AtomContextDB _context;
