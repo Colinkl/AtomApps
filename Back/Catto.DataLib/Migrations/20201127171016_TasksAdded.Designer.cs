@@ -4,14 +4,16 @@ using Catto.DataLib.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Catto.DataLib.Migrations
 {
     [DbContext(typeof(AtomContextDB))]
-    partial class AtomContextDBModelSnapshot : ModelSnapshot
+    [Migration("20201127171016_TasksAdded")]
+    partial class TasksAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -172,7 +174,7 @@ namespace Catto.DataLib.Migrations
 
                     b.HasIndex("MachineModel");
 
-                    b.ToTable("MalfuntionsList");
+                    b.ToTable("Malfuntions");
                 });
 
             modelBuilder.Entity("Catto.DataLib.Models.Project", b =>

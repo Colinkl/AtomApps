@@ -14,47 +14,47 @@ namespace Catto.Api.Admin.Controllers
     [Route("admin/api/[controller]")]
     [ApiController]
     [Authorize]
-    public class EmployeesController : ControllerBase
+    public class TechniciansController : ControllerBase
     {
         private readonly AtomContextDB _context;
 
-        public EmployeesController(AtomContextDB context)
+        public TechniciansController(AtomContextDB context)
         {
             _context = context;
         }
 
-        // GET: api/Employees
+        // GET: api/Technicians
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Employee>>> GetEmployees()
+        public async Task<ActionResult<IEnumerable<Technician>>> GetTechnicians()
         {
-            return await _context.Employees.ToListAsync();
+            return await _context.Technicians.ToListAsync();
         }
 
-        // GET: api/Employees/5
+        // GET: api/Technicians/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Employee>> GetEmployee(int id)
+        public async Task<ActionResult<Technician>> GetTechnician(int id)
         {
-            var employee = await _context.Employees.FindAsync(id);
+            var technician = await _context.Technicians.FindAsync(id);
 
-            if (employee == null)
+            if (technician == null)
             {
                 return NotFound();
             }
 
-            return employee;
+            return technician;
         }
 
-        // PUT: api/Employees/5
+        // PUT: api/Technicians/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutEmployee(int id, Employee employee)
+        public async Task<IActionResult> PutTechnician(int id, Technician technician)
         {
-            if (id != employee.Id)
+            if (id != technician.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(employee).State = EntityState.Modified;
+            _context.Entry(technician).State = EntityState.Modified;
 
             try
             {
@@ -62,7 +62,7 @@ namespace Catto.Api.Admin.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!EmployeeExists(id))
+                if (!TechnicianExists(id))
                 {
                     return NotFound();
                 }
@@ -75,19 +75,19 @@ namespace Catto.Api.Admin.Controllers
             return NoContent();
         }
 
-        // POST: api/Employees
+        // POST: api/Technicians
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Employee>> PostEmployee(Employee employee)
+        public async Task<ActionResult<Technician>> PostTechnician(Technician technician)
         {
-            _context.Employees.Add(employee);
+            _context.Technicians.Add(technician);
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
-                if (EmployeeExists(employee.Id))
+                if (TechnicianExists(technician.Id))
                 {
                     return Conflict();
                 }
@@ -97,28 +97,28 @@ namespace Catto.Api.Admin.Controllers
                 }
             }
 
-            return CreatedAtAction("GetEmployee", new { id = employee.Id }, employee);
+            return CreatedAtAction("GetTechnician", new { id = technician.Id }, technician);
         }
 
-        // DELETE: api/Employees/5
+        // DELETE: api/Technicians/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteEmployee(int id)
+        public async Task<IActionResult> DeleteTechnician(int id)
         {
-            var employee = await _context.Employees.FindAsync(id);
-            if (employee == null)
+            var technician = await _context.Technicians.FindAsync(id);
+            if (technician == null)
             {
                 return NotFound();
             }
 
-            _context.Employees.Remove(employee);
+            _context.Technicians.Remove(technician);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool EmployeeExists(int id)
+        private bool TechnicianExists(int id)
         {
-            return _context.Employees.Any(e => e.Id == id);
+            return _context.Technicians.Any(e => e.Id == id);
         }
     }
 }

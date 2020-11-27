@@ -7,52 +7,54 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Catto.DataLib.Data;
 using Catto.DataLib.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Catto.Api.Admin.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("admin/api/[controller]")]
     [ApiController]
-    public class RepairOrdersController : ControllerBase
+    [Authorize]
+    public class PropertiesController : ControllerBase
     {
         private readonly AtomContextDB _context;
 
-        public RepairOrdersController(AtomContextDB context)
+        public PropertiesController(AtomContextDB context)
         {
             _context = context;
         }
 
-        // GET: api/Project
+        // GET: api/Properties
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Project>>> GetRepairOrders()
+        public async Task<ActionResult<IEnumerable<Property>>> GetProperties()
         {
-            return await _context.Project.ToListAsync();
+            return await _context.Properties.ToListAsync();
         }
 
-        // GET: api/Project/5
+        // GET: api/Properties/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Project>> GetRepairOrder(int id)
+        public async Task<ActionResult<Property>> GetProperty(int id)
         {
-            var repairOrder = await _context.Project.FindAsync(id);
+            var @property = await _context.Properties.FindAsync(id);
 
-            if (repairOrder == null)
+            if (@property == null)
             {
                 return NotFound();
             }
 
-            return repairOrder;
+            return @property;
         }
 
-        // PUT: api/Project/5
+        // PUT: api/Properties/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutRepairOrder(int id, Project repairOrder)
+        public async Task<IActionResult> PutProperty(int id, Property @property)
         {
-            if (id != repairOrder.Id)
+            if (id != @property.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(repairOrder).State = EntityState.Modified;
+            _context.Entry(@property).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +62,7 @@ namespace Catto.Api.Admin.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!RepairOrderExists(id))
+                if (!PropertyExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +75,36 @@ namespace Catto.Api.Admin.Controllers
             return NoContent();
         }
 
-        // POST: api/Project
+        // POST: api/Properties
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Project>> PostRepairOrder(Project repairOrder)
+        public async Task<ActionResult<Property>> PostProperty(Property @property)
         {
-            _context.Project.Add(repairOrder);
+            _context.Properties.Add(@property);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetRepairOrder", new { id = repairOrder.Id }, repairOrder);
+            return CreatedAtAction("GetProperty", new { id = @property.Id }, @property);
         }
 
-        // DELETE: api/Project/5
+        // DELETE: api/Properties/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteRepairOrder(int id)
+        public async Task<IActionResult> DeleteProperty(int id)
         {
-            var repairOrder = await _context.Project.FindAsync(id);
-            if (repairOrder == null)
+            var @property = await _context.Properties.FindAsync(id);
+            if (@property == null)
             {
                 return NotFound();
             }
 
-            _context.Project.Remove(repairOrder);
+            _context.Properties.Remove(@property);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool RepairOrderExists(int id)
+        private bool PropertyExists(int id)
         {
-            return _context.Project.Any(e => e.Id == id);
+            return _context.Properties.Any(e => e.Id == id);
         }
     }
 }

@@ -16,7 +16,7 @@ using Catto.Auth.Services;
 
 namespace Catto.Auth.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("auth/api/[controller]")]
     [ApiController]
     public class AuthController : ControllerBase
     {
