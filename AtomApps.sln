@@ -3,7 +3,31 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catto.Api.Admin", "Back\Catto.Api.Admin\Catto.Api.Admin.csproj", "{6DC211F3-9BC6-4B55-8ACA-7B6B24E5029E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catto.DataLib", "Back\Catto.DataLib\Catto.DataLib.csproj", "{C76D011A-7D13-4167-9FA6-7856C5EAC5E3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catto.Auth", "Back\Catto.Auth\Catto.Auth.csproj", "{99BECFE5-B851-42F2-925F-F135EB1A6F3B}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6DC211F3-9BC6-4B55-8ACA-7B6B24E5029E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DC211F3-9BC6-4B55-8ACA-7B6B24E5029E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DC211F3-9BC6-4B55-8ACA-7B6B24E5029E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DC211F3-9BC6-4B55-8ACA-7B6B24E5029E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C76D011A-7D13-4167-9FA6-7856C5EAC5E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C76D011A-7D13-4167-9FA6-7856C5EAC5E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C76D011A-7D13-4167-9FA6-7856C5EAC5E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C76D011A-7D13-4167-9FA6-7856C5EAC5E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99BECFE5-B851-42F2-925F-F135EB1A6F3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99BECFE5-B851-42F2-925F-F135EB1A6F3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99BECFE5-B851-42F2-925F-F135EB1A6F3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99BECFE5-B851-42F2-925F-F135EB1A6F3B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
