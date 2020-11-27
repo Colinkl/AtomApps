@@ -10,4 +10,9 @@
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Back\Catto.Auth\Catto.Auth.csproj" />
+    <ProjectReference Include="..\Back\Catto.DataLib\Catto.DataLib.csproj" />
+  </ItemGroup>
+
 </Project>
