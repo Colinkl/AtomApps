@@ -13,6 +13,6 @@ namespace Catto.DataLib.Models
         public int AccessLevel { get; set; }
         public string Speciality { get; set; }
         public Manager Manager { get; set; }
-        public List<RepairOrder> RepairOrders { get; set; }
+        public List<Project> Project { get; set; }
     }
 }

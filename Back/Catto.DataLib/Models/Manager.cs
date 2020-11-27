@@ -11,7 +11,7 @@ namespace Catto.DataLib.Models
         public string Rank { get; set; }        
         public List<Technician> Technicians { get; set; }
         public List<Property> Properties { get; set; }
-        public List<RepairOrder> RepairOrders {get; set;}
+        public List<Project> Project {get; set;}
 
     }
 }

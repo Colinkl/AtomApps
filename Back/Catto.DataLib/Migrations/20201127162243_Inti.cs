@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Catto.DataLib.Migrations
 {
-    public partial class Init : Migration
+    public partial class Inti : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -29,9 +29,7 @@ namespace Catto.DataLib.Migrations
                     Model = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Type = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     AccessLevel = table.Column<int>(type: "int", nullable: false),
-                    Speciality = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
-                    MalfunctionType = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: true),
-                    ManualLink = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: true)
+                    Speciality = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -60,6 +58,27 @@ namespace Catto.DataLib.Migrations
                         principalTable: "Accounts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Malfuntions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    MachineModel = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    MalfunctionType = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: true),
+                    ManualLink = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Malfuntions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Malfuntions_Machines_MachineModel",
+                        column: x => x.MachineModel,
+                        principalTable: "Machines",
+                        principalColumn: "Model",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -136,7 +155,7 @@ namespace Catto.DataLib.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "RepairOrders",
+                name: "Project",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -154,15 +173,15 @@ namespace Catto.DataLib.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RepairOrders", x => x.Id);
+                    table.PrimaryKey("PK_Project", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_RepairOrders_Employees_CreatorId",
+                        name: "FK_Project_Employees_CreatorId",
                         column: x => x.CreatorId,
                         principalTable: "Employees",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_RepairOrders_Properties_PropertyId",
+                        name: "FK_Project_Properties_PropertyId",
                         column: x => x.PropertyId,
                         principalTable: "Properties",
                         principalColumn: "Id",
@@ -170,47 +189,47 @@ namespace Catto.DataLib.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ManagerRepairOrder",
+                name: "ManagerProject",
                 columns: table => new
                 {
                     ManagersId = table.Column<int>(type: "int", nullable: false),
-                    RepairOrdersId = table.Column<int>(type: "int", nullable: false)
+                    ProjectId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ManagerRepairOrder", x => new { x.ManagersId, x.RepairOrdersId });
+                    table.PrimaryKey("PK_ManagerProject", x => new { x.ManagersId, x.ProjectId });
                     table.ForeignKey(
-                        name: "FK_ManagerRepairOrder_Managers_ManagersId",
+                        name: "FK_ManagerProject_Managers_ManagersId",
                         column: x => x.ManagersId,
                         principalTable: "Managers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ManagerRepairOrder_RepairOrders_RepairOrdersId",
-                        column: x => x.RepairOrdersId,
-                        principalTable: "RepairOrders",
+                        name: "FK_ManagerProject_Project_ProjectId",
+                        column: x => x.ProjectId,
+                        principalTable: "Project",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "RepairOrderTechnician",
+                name: "ProjectTechnician",
                 columns: table => new
                 {
-                    RepairOrdersId = table.Column<int>(type: "int", nullable: false),
+                    ProjectId = table.Column<int>(type: "int", nullable: false),
                     TechniciansId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RepairOrderTechnician", x => new { x.RepairOrdersId, x.TechniciansId });
+                    table.PrimaryKey("PK_ProjectTechnician", x => new { x.ProjectId, x.TechniciansId });
                     table.ForeignKey(
-                        name: "FK_RepairOrderTechnician_RepairOrders_RepairOrdersId",
-                        column: x => x.RepairOrdersId,
-                        principalTable: "RepairOrders",
+                        name: "FK_ProjectTechnician_Project_ProjectId",
+                        column: x => x.ProjectId,
+                        principalTable: "Project",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_RepairOrderTechnician_Technician_TechniciansId",
+                        name: "FK_ProjectTechnician_Technician_TechniciansId",
                         column: x => x.TechniciansId,
                         principalTable: "Technician",
                         principalColumn: "Id",
@@ -218,9 +237,29 @@ namespace Catto.DataLib.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ManagerRepairOrder_RepairOrdersId",
-                table: "ManagerRepairOrder",
-                column: "RepairOrdersId");
+                name: "IX_Malfuntions_MachineModel",
+                table: "Malfuntions",
+                column: "MachineModel");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ManagerProject_ProjectId",
+                table: "ManagerProject",
+                column: "ProjectId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Project_CreatorId",
+                table: "Project",
+                column: "CreatorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Project_PropertyId",
+                table: "Project",
+                column: "PropertyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProjectTechnician_TechniciansId",
+                table: "ProjectTechnician",
+                column: "TechniciansId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Properties_MachineModel",
@@ -233,21 +272,6 @@ namespace Catto.DataLib.Migrations
                 column: "ManagerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RepairOrders_CreatorId",
-                table: "RepairOrders",
-                column: "CreatorId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_RepairOrders_PropertyId",
-                table: "RepairOrders",
-                column: "PropertyId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_RepairOrderTechnician_TechniciansId",
-                table: "RepairOrderTechnician",
-                column: "TechniciansId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Technician_ManagerId",
                 table: "Technician",
                 column: "ManagerId");
@@ -256,13 +280,16 @@ namespace Catto.DataLib.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ManagerRepairOrder");
+                name: "Malfuntions");
 
             migrationBuilder.DropTable(
-                name: "RepairOrderTechnician");
+                name: "ManagerProject");
 
             migrationBuilder.DropTable(
-                name: "RepairOrders");
+                name: "ProjectTechnician");
+
+            migrationBuilder.DropTable(
+                name: "Project");
 
             migrationBuilder.DropTable(
                 name: "Technician");

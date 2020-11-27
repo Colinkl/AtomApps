@@ -19,6 +19,6 @@ namespace Catto.DataLib.Data
         public DbSet<Manager> Managers { get; set; }
         public DbSet<Property> Properties { get; set; }
         public DbSet<Technician> Technicians { get; set; }
-        public DbSet<RepairOrder> RepairOrders { get; set; }
+        public DbSet<Project> Project { get; set; }
     }
 }

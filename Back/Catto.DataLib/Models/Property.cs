@@ -22,7 +22,7 @@ namespace Catto.DataLib.Models
         public string Status { get; set; }
         
         public Manager Manager { get; set; }
-        public List<RepairOrder> RepairOrders {get; set;}
+        public List<Project> Project {get; set;}
 
     }
 }

@@ -83,6 +83,51 @@ namespace Catto.DataLib.Migrations
                     b.ToTable("Employees");
                 });
 
+            modelBuilder.Entity("Catto.DataLib.Models.JobTask", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Comment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DeadLine")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ExecutorId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Priority")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ProjectId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("VerifierId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExecutorId");
+
+                    b.HasIndex("ProjectId");
+
+                    b.HasIndex("VerifierId");
+
+                    b.ToTable("JobTask");
+                });
+
             modelBuilder.Entity("Catto.DataLib.Models.Machine", b =>
                 {
                     b.Property<string>("Model")
@@ -130,45 +175,7 @@ namespace Catto.DataLib.Migrations
                     b.ToTable("Malfuntions");
                 });
 
-            modelBuilder.Entity("Catto.DataLib.Models.Property", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<string>("Department")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Location")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
-                    b.Property<string>("MachineModel")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int?>("ManagerId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MachineModel");
-
-                    b.HasIndex("ManagerId");
-
-                    b.ToTable("Properties");
-                });
-
-            modelBuilder.Entity("Catto.DataLib.Models.RepairOrder", b =>
+            modelBuilder.Entity("Catto.DataLib.Models.Project", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -216,37 +223,75 @@ namespace Catto.DataLib.Migrations
 
                     b.HasIndex("PropertyId");
 
-                    b.ToTable("RepairOrders");
+                    b.ToTable("Project");
                 });
 
-            modelBuilder.Entity("ManagerRepairOrder", b =>
+            modelBuilder.Entity("Catto.DataLib.Models.Property", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Department")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<string>("MachineModel")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("ManagerId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MachineModel");
+
+                    b.HasIndex("ManagerId");
+
+                    b.ToTable("Properties");
+                });
+
+            modelBuilder.Entity("ManagerProject", b =>
                 {
                     b.Property<int>("ManagersId")
                         .HasColumnType("int");
 
-                    b.Property<int>("RepairOrdersId")
+                    b.Property<int>("ProjectId")
                         .HasColumnType("int");
 
-                    b.HasKey("ManagersId", "RepairOrdersId");
+                    b.HasKey("ManagersId", "ProjectId");
 
-                    b.HasIndex("RepairOrdersId");
+                    b.HasIndex("ProjectId");
 
-                    b.ToTable("ManagerRepairOrder");
+                    b.ToTable("ManagerProject");
                 });
 
-            modelBuilder.Entity("RepairOrderTechnician", b =>
+            modelBuilder.Entity("ProjectTechnician", b =>
                 {
-                    b.Property<int>("RepairOrdersId")
+                    b.Property<int>("ProjectId")
                         .HasColumnType("int");
 
                     b.Property<int>("TechniciansId")
                         .HasColumnType("int");
 
-                    b.HasKey("RepairOrdersId", "TechniciansId");
+                    b.HasKey("ProjectId", "TechniciansId");
 
                     b.HasIndex("TechniciansId");
 
-                    b.ToTable("RepairOrderTechnician");
+                    b.ToTable("ProjectTechnician");
                 });
 
             modelBuilder.Entity("Catto.DataLib.Models.Manager", b =>
@@ -289,6 +334,27 @@ namespace Catto.DataLib.Migrations
                     b.Navigation("Account");
                 });
 
+            modelBuilder.Entity("Catto.DataLib.Models.JobTask", b =>
+                {
+                    b.HasOne("Catto.DataLib.Models.Employee", "Executor")
+                        .WithMany()
+                        .HasForeignKey("ExecutorId");
+
+                    b.HasOne("Catto.DataLib.Models.Project", "Project")
+                        .WithMany("Tasks")
+                        .HasForeignKey("ProjectId");
+
+                    b.HasOne("Catto.DataLib.Models.Employee", "Verifier")
+                        .WithMany()
+                        .HasForeignKey("VerifierId");
+
+                    b.Navigation("Executor");
+
+                    b.Navigation("Project");
+
+                    b.Navigation("Verifier");
+                });
+
             modelBuilder.Entity("Catto.DataLib.Models.Malfuntions", b =>
                 {
                     b.HasOne("Catto.DataLib.Models.Machine", "Machine")
@@ -296,6 +362,23 @@ namespace Catto.DataLib.Migrations
                         .HasForeignKey("MachineModel");
 
                     b.Navigation("Machine");
+                });
+
+            modelBuilder.Entity("Catto.DataLib.Models.Project", b =>
+                {
+                    b.HasOne("Catto.DataLib.Models.Employee", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatorId");
+
+                    b.HasOne("Catto.DataLib.Models.Property", "Property")
+                        .WithMany("Project")
+                        .HasForeignKey("PropertyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Creator");
+
+                    b.Navigation("Property");
                 });
 
             modelBuilder.Entity("Catto.DataLib.Models.Property", b =>
@@ -315,24 +398,7 @@ namespace Catto.DataLib.Migrations
                     b.Navigation("Manager");
                 });
 
-            modelBuilder.Entity("Catto.DataLib.Models.RepairOrder", b =>
-                {
-                    b.HasOne("Catto.DataLib.Models.Employee", "Creator")
-                        .WithMany()
-                        .HasForeignKey("CreatorId");
-
-                    b.HasOne("Catto.DataLib.Models.Property", "Property")
-                        .WithMany("RepairOrders")
-                        .HasForeignKey("PropertyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Creator");
-
-                    b.Navigation("Property");
-                });
-
-            modelBuilder.Entity("ManagerRepairOrder", b =>
+            modelBuilder.Entity("ManagerProject", b =>
                 {
                     b.HasOne("Catto.DataLib.Models.Manager", null)
                         .WithMany()
@@ -340,18 +406,18 @@ namespace Catto.DataLib.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Catto.DataLib.Models.RepairOrder", null)
+                    b.HasOne("Catto.DataLib.Models.Project", null)
                         .WithMany()
-                        .HasForeignKey("RepairOrdersId")
+                        .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("RepairOrderTechnician", b =>
+            modelBuilder.Entity("ProjectTechnician", b =>
                 {
-                    b.HasOne("Catto.DataLib.Models.RepairOrder", null)
+                    b.HasOne("Catto.DataLib.Models.Project", null)
                         .WithMany()
-                        .HasForeignKey("RepairOrdersId")
+                        .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -398,9 +464,14 @@ namespace Catto.DataLib.Migrations
                     b.Navigation("PropList");
                 });
 
+            modelBuilder.Entity("Catto.DataLib.Models.Project", b =>
+                {
+                    b.Navigation("Tasks");
+                });
+
             modelBuilder.Entity("Catto.DataLib.Models.Property", b =>
                 {
-                    b.Navigation("RepairOrders");
+                    b.Navigation("Project");
                 });
 
             modelBuilder.Entity("Catto.DataLib.Models.Manager", b =>

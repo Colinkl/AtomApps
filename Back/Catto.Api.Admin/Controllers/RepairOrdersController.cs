@@ -21,18 +21,18 @@ namespace Catto.Api.Admin.Controllers
             _context = context;
         }
 
-        // GET: api/RepairOrders
+        // GET: api/Project
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<RepairOrder>>> GetRepairOrders()
+        public async Task<ActionResult<IEnumerable<Project>>> GetRepairOrders()
         {
-            return await _context.RepairOrders.ToListAsync();
+            return await _context.Project.ToListAsync();
         }
 
-        // GET: api/RepairOrders/5
+        // GET: api/Project/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<RepairOrder>> GetRepairOrder(int id)
+        public async Task<ActionResult<Project>> GetRepairOrder(int id)
         {
-            var repairOrder = await _context.RepairOrders.FindAsync(id);
+            var repairOrder = await _context.Project.FindAsync(id);
 
             if (repairOrder == null)
             {
@@ -42,10 +42,10 @@ namespace Catto.Api.Admin.Controllers
             return repairOrder;
         }
 
-        // PUT: api/RepairOrders/5
+        // PUT: api/Project/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutRepairOrder(int id, RepairOrder repairOrder)
+        public async Task<IActionResult> PutRepairOrder(int id, Project repairOrder)
         {
             if (id != repairOrder.Id)
             {
@@ -73,28 +73,28 @@ namespace Catto.Api.Admin.Controllers
             return NoContent();
         }
 
-        // POST: api/RepairOrders
+        // POST: api/Project
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<RepairOrder>> PostRepairOrder(RepairOrder repairOrder)
+        public async Task<ActionResult<Project>> PostRepairOrder(Project repairOrder)
         {
-            _context.RepairOrders.Add(repairOrder);
+            _context.Project.Add(repairOrder);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetRepairOrder", new { id = repairOrder.Id }, repairOrder);
         }
 
-        // DELETE: api/RepairOrders/5
+        // DELETE: api/Project/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRepairOrder(int id)
         {
-            var repairOrder = await _context.RepairOrders.FindAsync(id);
+            var repairOrder = await _context.Project.FindAsync(id);
             if (repairOrder == null)
             {
                 return NotFound();
             }
 
-            _context.RepairOrders.Remove(repairOrder);
+            _context.Project.Remove(repairOrder);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -102,7 +102,7 @@ namespace Catto.Api.Admin.Controllers
 
         private bool RepairOrderExists(int id)
         {
-            return _context.RepairOrders.Any(e => e.Id == id);
+            return _context.Project.Any(e => e.Id == id);
         }
     }
 }

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Catto.DataLib.Models
 {
-    public class RepairOrder
+    public class Project
     {
         public int Id { get; set; }
         [Required]
@@ -27,5 +27,6 @@ namespace Catto.DataLib.Models
 
         public DateTime ComplitionTime { get; set; }        
         public string Comment { get; set; }
+        public List<JobTask> Tasks { get; set; }
     }
 }
