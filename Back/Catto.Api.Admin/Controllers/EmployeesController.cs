@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Catto.Api.Admin.Controllers
 {
-    [Route("admin/api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     [Authorize]
     public class EmployeesController : ControllerBase

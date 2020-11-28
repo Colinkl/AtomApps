@@ -15,10 +15,9 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 
-namespace Catto.ManagerWeb
+namespace Catto.AppApi
 {
     public class Startup
     {
@@ -32,15 +31,25 @@ namespace Catto.ManagerWeb
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddDbContext<AtomContextDB>(options =>
             {
                 options = options.UseSqlServer(Configuration.GetConnectionString("Default"));
             });
-            services.Configure<AuthOptions>(Configuration.GetSection("Auth"));
-            services.AddControllersWithViews();
+            var authOptions = Configuration.GetSection("Auth").Get<AuthOptions>();
+            services.AddControllers();
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                    });
+            });
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
-                var authOptions = Configuration.GetSection("Auth").Get<AuthOptions>();
                 options.RequireHttpsMetadata = false;
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
@@ -72,54 +81,40 @@ namespace Catto.ManagerWeb
                     }
                 };
             });
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Catto.Api.Admin", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.Use(async (context, next) =>
-            {
-                var cok = context.Request.Cookies["Authorization"]?.ToString();
-                if (cok != null)
-                {
-                    context.Request.Headers.Add("Authorization", cok);
-                }
-                await next.Invoke();
-            });
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Catto.Api.Admin v1"));
             }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
+
             //app.UseHttpsRedirection();
-            app.UseStaticFiles();
 
             app.UseRouting();
+            var loggerFactory = LoggerFactory.Create(buider =>
+            {
+                buider.AddDebug();
+            });
+            ILogger logger = loggerFactory.CreateLogger<Startup>();
 
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseStatusCodePages(async context => {
-                var request = context.HttpContext.Request;
-                var response = context.HttpContext.Response;
-
-                if (response.StatusCode == (int)HttpStatusCode.Unauthorized)
-                {
-                    response.Redirect("/");
-                }
-            });
+            app.UseCors();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllers();
             });
         }
     }

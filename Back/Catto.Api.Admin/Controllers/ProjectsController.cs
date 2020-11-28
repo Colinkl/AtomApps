@@ -7,54 +7,52 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Catto.DataLib.Data;
 using Catto.DataLib.Models;
-using Microsoft.AspNetCore.Authorization;
 
 namespace Catto.Api.Admin.Controllers
 {
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
-    public class JobTasksController : ControllerBase
+    public class ProjectsController : ControllerBase
     {
         private readonly AtomContextDB _context;
 
-        public JobTasksController(AtomContextDB context)
+        public ProjectsController(AtomContextDB context)
         {
             _context = context;
         }
 
-        // GET: api/JobTasks
+        // GET: api/Projects
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<JobTask>>> GetJobTasks()
+        public async Task<ActionResult<IEnumerable<Project>>> GetProject()
         {
-            return await _context.JobTasks.ToListAsync();
+            return await _context.Project.ToListAsync();
         }
 
-        // GET: api/JobTasks/5
+        // GET: api/Projects/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<JobTask>> GetJobTask(int id)
+        public async Task<ActionResult<Project>> GetProject(int id)
         {
-            var jobTask = await _context.JobTasks.FindAsync(id);
+            var project = await _context.Project.FindAsync(id);
 
-            if (jobTask == null)
+            if (project == null)
             {
                 return NotFound();
             }
 
-            return jobTask;
+            return project;
         }
 
-        // PUT: api/JobTasks/5
+        // PUT: api/Projects/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutJobTask(int id, JobTask jobTask)
+        public async Task<IActionResult> PutProject(int id, Project project)
         {
-            if (id != jobTask.Id)
+            if (id != project.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(jobTask).State = EntityState.Modified;
+            _context.Entry(project).State = EntityState.Modified;
 
             try
             {
@@ -62,7 +60,7 @@ namespace Catto.Api.Admin.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!JobTaskExists(id))
+                if (!ProjectExists(id))
                 {
                     return NotFound();
                 }
@@ -75,36 +73,36 @@ namespace Catto.Api.Admin.Controllers
             return NoContent();
         }
 
-        // POST: api/JobTasks
+        // POST: api/Projects
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<JobTask>> PostJobTask(JobTask jobTask)
+        public async Task<ActionResult<Project>> PostProject(Project project)
         {
-            _context.JobTasks.Add(jobTask);
+            _context.Project.Add(project);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetJobTask", new { id = jobTask.Id }, jobTask);
+            return CreatedAtAction("GetProject", new { id = project.Id }, project);
         }
 
-        // DELETE: api/JobTasks/5
+        // DELETE: api/Projects/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteJobTask(int id)
+        public async Task<IActionResult> DeleteProject(int id)
         {
-            var jobTask = await _context.JobTasks.FindAsync(id);
-            if (jobTask == null)
+            var project = await _context.Project.FindAsync(id);
+            if (project == null)
             {
                 return NotFound();
             }
 
-            _context.JobTasks.Remove(jobTask);
+            _context.Project.Remove(project);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool JobTaskExists(int id)
+        private bool ProjectExists(int id)
         {
-            return _context.JobTasks.Any(e => e.Id == id);
+            return _context.Project.Any(e => e.Id == id);
         }
     }
 }
