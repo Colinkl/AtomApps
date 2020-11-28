@@ -7,10 +7,10 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0-buster-slim AS build
 WORKDIR /src
-COPY ["Catto.AppApi/Catto.AppApi.csproj", "Catto.AppApi/"]
-RUN dotnet restore "Catto.AppApi/Catto.AppApi.csproj"
+COPY ["Catto.AppApi/Catto.AppApi.csproj", "back/Catto.AppApi/"]
+RUN dotnet restore "back/Catto.AppApi/Catto.AppApi.csproj"
 COPY . .
-WORKDIR "/src/Catto.AppApi"
+WORKDIR "/src/back/Catto.AppApi"
 RUN dotnet build "Catto.AppApi.csproj" -c Release -o /app/build
 
 FROM build AS publish
