@@ -14,20 +14,20 @@ using Catto.AppApi.Services;
 
 namespace Catto.AppApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class TaskManagerController : ControllerBase
     {
         private readonly AtomContextDB _context;
-        private int EmployeeId => int.Parse(User.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value);
+        
         public TaskManagerController(AtomContextDB context)
         {
             _context = context;
         }
 
-        [HttpGet]
-        [Authorize]
-        public async Task<ActionResult<List<JobTask>>> GetAsmartTask()
+        [HttpGet]        
+        [Route("GetTask")]
+        public async Task<ActionResult<List<JobTask>>> GetAsmartTask(int EmployeeId)
         {
             var tasks = _context.JobTasks.Where(u=> u.Executor.Id == EmployeeId).ToList();
             var tdplanner = new ToDoPlanner(tasks);

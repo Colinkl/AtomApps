@@ -10,7 +10,7 @@ using Catto.DataLib.Models;
 
 namespace Catto.AppApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class ProjectsController : ControllerBase
     {

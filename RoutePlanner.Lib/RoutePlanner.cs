@@ -95,7 +95,7 @@ namespace RoutePlanner.net
                     Route.Add("error");
                     break;
                 }
-                Route.Add($"{nearestDest}  {minLenght}");
+                Route.Add($"{nearestDest}");
                 remainingDest.Remove(currentLocation);
             }
             return Route;

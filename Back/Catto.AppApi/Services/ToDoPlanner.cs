@@ -68,8 +68,10 @@ namespace Catto.AppApi.Services
             {
                 destList.Add(item.Location);
             }
-            var targets = destList.Distinct();
+            var targets = destList;
             var route = new RouteCreator();
+            route.Nodes = nodes;
+            route.Connections = connections;
             var a = route.GetRoute("hub", destList);
 
             var output = new List<int>();

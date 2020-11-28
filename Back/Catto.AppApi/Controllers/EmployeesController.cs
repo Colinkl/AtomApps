@@ -30,7 +30,7 @@ namespace Catto.AppApi.Controllers
             return await _context.Employees.ToListAsync();
         }
 
-        // GET: api/Employees/5
+        // GET: Employees/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Employee>> GetEmployee(int id)
         {

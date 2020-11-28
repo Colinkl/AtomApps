@@ -7,10 +7,12 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0-buster-slim AS build
 WORKDIR /src
-COPY ["Catto.AppApi/Catto.AppApi.csproj", "back/Catto.AppApi/"]
-RUN dotnet restore "back/Catto.AppApi/Catto.AppApi.csproj"
+COPY ["Back/Catto.AppApi/Catto.AppApi.csproj", "Back/Catto.AppApi/"]
+COPY ["Back/Catto.DataLib/Catto.DataLib.csproj", "Back/Catto.DataLib/"]
+COPY ["RoutePlanner.Lib/RoutePlanner.net.csproj", "RoutePlanner.Lib/"]
+RUN dotnet restore "Back/Catto.AppApi/Catto.AppApi.csproj"
 COPY . .
-WORKDIR "/src/back/Catto.AppApi"
+WORKDIR "/src/Back/Catto.AppApi"
 RUN dotnet build "Catto.AppApi.csproj" -c Release -o /app/build
 
 FROM build AS publish
