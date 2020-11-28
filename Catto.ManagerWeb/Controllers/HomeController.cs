@@ -29,6 +29,7 @@ namespace Catto.ManagerWeb.Controllers
 
         public IActionResult Index()
         {
+            var user = HttpContext.User;
             return View();
         }
 

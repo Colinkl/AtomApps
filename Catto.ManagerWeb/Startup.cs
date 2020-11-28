@@ -78,10 +78,10 @@ namespace Catto.ManagerWeb
         {
             app.Use(async (context, next) =>
             {
-                var cok = context.Request.Cookies["Authorization"]?.ToList()[0].ToString();
-                if (cok != "")
+                var cok = context.Request.Cookies["Authorization"]?.ToString();
+                if (cok != null)
                 {
-                    context.Response.Headers.Add("Authorization", cok);
+                    context.Request.Headers.Add("Authorization", cok);
                 }
                 await next.Invoke();
             });
