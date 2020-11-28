@@ -7,10 +7,11 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0-buster-slim AS build
 WORKDIR /src
-COPY ["Catto.Auth/Catto.Auth.csproj", "Catto.Auth/"]
-RUN dotnet restore "Catto.Auth/Catto.Auth.csproj"
+COPY ["Back/Catto.Auth/Catto.Auth.csproj", "Back/Catto.Auth/"]
+COPY ["Back/Catto.DataLib/Catto.DataLib.csproj", "Back/Catto.DataLib/"]
+RUN dotnet restore "Back/Catto.Auth/Catto.Auth.csproj"
 COPY . .
-WORKDIR "/src/Catto.Auth"
+WORKDIR "/src/Back/Catto.Auth"
 RUN dotnet build "Catto.Auth.csproj" -c Release -o /app/build
 
 FROM build AS publish
