@@ -20,10 +20,15 @@ namespace Catto.DataLib.Models
         public Project Project { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public string Type { get; set; }
         public string Comment { get; set; }
+        public string Location { get; set; }
         public Employee Executor { get; set; }
         public Employee Verifier { get; set; }
+        public DateTime CreationTime {get; set;}
         public DateTime DeadLine { get; set; }
+        public DateTime DoneTime { get; set; }
         public int Priority { get; set; }
+        
     }
 }

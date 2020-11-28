@@ -2,12 +2,22 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <UserSecretsId>49f829e9-3df2-417d-a27b-217812ae22e1</UserSecretsId>
+    <UserSecretsId>2f7750b9-111a-482b-b292-d75be6299d67</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Back\Catto.Auth\Catto.Auth.csproj" />
+    <ProjectReference Include="..\Back\Catto.DataLib\Catto.DataLib.csproj" />
   </ItemGroup>
 
 </Project>

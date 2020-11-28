@@ -106,6 +106,7 @@ namespace Catto.Api.Admin
                 buider.AddDebug();
             });
             ILogger logger = loggerFactory.CreateLogger<Startup>();
+
             app.UseAuthentication();
             app.UseAuthorization();
 

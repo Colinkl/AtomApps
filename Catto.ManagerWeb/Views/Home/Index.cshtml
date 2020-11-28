@@ -1,0 +1,14 @@
+﻿@model Catto.DataLib.Models.Account
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    @using (Html.BeginForm("Login", "Home", FormMethod.Post))
+    {
+        <input name="@nameof(Model.Login)" />
+        <input name="@nameof(Model.Password)" />
+        <input type="submit" value="Отправить" />
+    }
+</div>
