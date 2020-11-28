@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Catto.DataLib.Migrations
 {
     [DbContext(typeof(AtomContextDB))]
-    [Migration("20201127164047_Task")]
-    partial class Task
+    [Migration("20201128174620_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -95,14 +95,23 @@ namespace Catto.DataLib.Migrations
                     b.Property<string>("Comment")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime>("DeadLine")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("DoneTime")
+                        .HasColumnType("datetime2");
+
                     b.Property<int?>("ExecutorId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Location")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -116,6 +125,9 @@ namespace Catto.DataLib.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("VerifierId")
                         .HasColumnType("int");
 
@@ -127,7 +139,7 @@ namespace Catto.DataLib.Migrations
 
                     b.HasIndex("VerifierId");
 
-                    b.ToTable("JobTask");
+                    b.ToTable("JobTasks");
                 });
 
             modelBuilder.Entity("Catto.DataLib.Models.Machine", b =>
@@ -174,7 +186,7 @@ namespace Catto.DataLib.Migrations
 
                     b.HasIndex("MachineModel");
 
-                    b.ToTable("Malfuntions");
+                    b.ToTable("MalfuntionsList");
                 });
 
             modelBuilder.Entity("Catto.DataLib.Models.Project", b =>

@@ -4,17 +4,20 @@
     <TargetFramework>net5.0</TargetFramework>
     <UserSecretsId>b053764f-1ee0-44c6-acce-816fdfd65085</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..</DockerfileContext>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.0" NoWarn="NU1605" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.0" NoWarn="NU1605" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Kubernetes.Tools.Targets" Version="1.1.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Back\Catto.DataLib\Catto.DataLib.csproj" />
+    <ProjectReference Include="..\..\RoutePlanner.Lib\RoutePlanner.net.csproj" />
+    <ProjectReference Include="..\Catto.DataLib\Catto.DataLib.csproj" />
   </ItemGroup>
 
 </Project>

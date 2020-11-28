@@ -10,6 +10,7 @@ using Catto.DataLib.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Security.Claims;
+using Catto.AppApi.Services;
 
 namespace Catto.AppApi.Controllers
 {
@@ -18,7 +19,7 @@ namespace Catto.AppApi.Controllers
     public class TaskManagerController : ControllerBase
     {
         private readonly AtomContextDB _context;
-        private Int EmployeeId => Guid.Parse(User.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value);
+        private int EmployeeId => int.Parse(User.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value);
         public TaskManagerController(AtomContextDB context)
         {
             _context = context;
@@ -26,10 +27,18 @@ namespace Catto.AppApi.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<ActionResult<JobTask>> GetAsmartTask()
+        public async Task<ActionResult<List<JobTask>>> GetAsmartTask()
         {
-            var tasks = _context.JobTasks.Where(u=> u.Executor.Id == EmployeeId );
-            return;
+            var tasks = _context.JobTasks.Where(u=> u.Executor.Id == EmployeeId).ToList();
+            var tdplanner = new ToDoPlanner(tasks);
+            var tasksID = tdplanner.GetTodayTodo();
+            var letter = new List<JobTask>();
+            foreach (var id in tasksID)
+            {
+                var i = _context.JobTasks.Find(id);
+                letter.Add(i);
+            }
+            return letter;
         }
     }
 }

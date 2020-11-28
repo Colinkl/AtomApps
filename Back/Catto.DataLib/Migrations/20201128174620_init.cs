@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Catto.DataLib.Migrations
 {
-    public partial class Inti : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -61,7 +61,7 @@ namespace Catto.DataLib.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Malfuntions",
+                name: "MalfuntionsList",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -72,9 +72,9 @@ namespace Catto.DataLib.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Malfuntions", x => x.Id);
+                    table.PrimaryKey("PK_MalfuntionsList", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Malfuntions_Machines_MachineModel",
+                        name: "FK_MalfuntionsList_Machines_MachineModel",
                         column: x => x.MachineModel,
                         principalTable: "Machines",
                         principalColumn: "Model",
@@ -189,6 +189,49 @@ namespace Catto.DataLib.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "JobTasks",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    ProjectId = table.Column<int>(type: "int", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Location = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ExecutorId = table.Column<int>(type: "int", nullable: true),
+                    VerifierId = table.Column<int>(type: "int", nullable: true),
+                    CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DeadLine = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DoneTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Priority = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_JobTasks", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_JobTasks_Employees_ExecutorId",
+                        column: x => x.ExecutorId,
+                        principalTable: "Employees",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_JobTasks_Employees_VerifierId",
+                        column: x => x.VerifierId,
+                        principalTable: "Employees",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_JobTasks_Project_ProjectId",
+                        column: x => x.ProjectId,
+                        principalTable: "Project",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ManagerProject",
                 columns: table => new
                 {
@@ -237,8 +280,23 @@ namespace Catto.DataLib.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Malfuntions_MachineModel",
-                table: "Malfuntions",
+                name: "IX_JobTasks_ExecutorId",
+                table: "JobTasks",
+                column: "ExecutorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_JobTasks_ProjectId",
+                table: "JobTasks",
+                column: "ProjectId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_JobTasks_VerifierId",
+                table: "JobTasks",
+                column: "VerifierId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MalfuntionsList_MachineModel",
+                table: "MalfuntionsList",
                 column: "MachineModel");
 
             migrationBuilder.CreateIndex(
@@ -280,7 +338,10 @@ namespace Catto.DataLib.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Malfuntions");
+                name: "JobTasks");
+
+            migrationBuilder.DropTable(
+                name: "MalfuntionsList");
 
             migrationBuilder.DropTable(
                 name: "ManagerProject");
